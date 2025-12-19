@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ApiTenant;
 use App\Http\Middleware\EnsureEmailIsVerified;
 use App\Http\Middleware\TontineAnnotations;
 use App\Http\Middleware\TontineHelper;
@@ -28,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'verified' => EnsureEmailIsVerified::class,
+            'api.tenant' => ApiTenant::class,
         ]);
 
         // Tontine middlewares
