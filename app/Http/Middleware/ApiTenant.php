@@ -40,6 +40,13 @@ class ApiTenant
                     return $this->errorResponse('not_found', 'Round non trouvé', 404);
                 }
                 $this->tenantService->setRound($round);
+
+                if ($sessionId = $request->route('session')) {
+                    $session = $round->sessions()->find((int) $sessionId);
+                    if (!$session) {
+                        return $this->errorResponse('not_found', 'Session non trouvée', 404);
+                    }
+                }
             }
         }
 
