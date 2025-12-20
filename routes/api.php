@@ -17,8 +17,15 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 // Health check (public)
 Route::get('/v1/health', fn() => response()->json(['status' => 'ok', 'version' => 'v1']));
 
+// Auth routes (public)
+Route::post('/v1/auth/login', [V1\AuthController::class, 'login'])
+    ->middleware('throttle:5,1');
+
 // Protected routes
 Route::prefix('v1')->middleware(['auth:sanctum'])->group(function () {
+    // Auth logout
+    Route::post('/auth/logout', [V1\AuthController::class, 'logout']);
+
     // User profile
     Route::get('/me', [V1\UserController::class, 'show']);
     Route::put('/me', [V1\UserController::class, 'update']);
